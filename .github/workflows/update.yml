@@ -1,0 +1,36 @@
+on:
+  schedule:
+    - cron: '* * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@main
+        with:
+          name: ref
+        continue-on-error: true
+      - name: Update
+        run: node --disable-warning=ExperimentalWarning ./.github/workflows/update.js
+        env:
+          NODE_ENV: production
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SKEY: ${{ secrets.SKEY }}
+      - name: Commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add ./api.d.ts
+          git commit -m "Update api.d.ts"
+          git push
+        continue-on-error: true
+      - uses: actions/upload-artifact@main
+        with:
+          name: ref
+          path: ./*.ref
+        continue-on-error: true
