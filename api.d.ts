@@ -1,5 +1,5 @@
 /**
- * @version 2026-08-01T14:47:59.000Z
+ * @version 2026-08-03T16:35:30.000Z
  */
 
 // #region Code API
@@ -3451,12 +3451,6 @@ interface _TypeOf {
         "recordGame",
         "recordClip",
         "replayViewerOpen",
-        "replayCamForward",
-        "replayCamBackward",
-        "replayCamLeft",
-        "replayCamRight",
-        "replayCamUp",
-        "replayCamDown",
         "replayPlayPause",
         "replaySkipBack",
         "replaySkipForward",
@@ -3493,24 +3487,44 @@ interface _TypeOf {
         readonly bouncinessOuter: unknown;
         readonly speedInner: unknown;
         readonly speedOuter: unknown;
-        readonly hasteInner: unknown;
-        readonly hasteOuter: unknown;
-        readonly auraInner: unknown;
-        readonly auraOuter: unknown;
+        readonly miningYieldInner: unknown;
+        readonly miningYieldOuter: unknown;
         readonly damageReductionInner: unknown;
         readonly damageReductionOuter: unknown;
         readonly invisibleInner: unknown;
         readonly invisibleOuter: unknown;
         readonly jumpBoostInner: unknown;
         readonly jumpBoostOuter: unknown;
-        readonly knockbackInner: unknown;
-        readonly knockbackOuter: unknown;
         readonly poisonedInner: unknown;
         readonly poisonedOuter: unknown;
         readonly slownessInner: unknown;
         readonly slownessOuter: unknown;
         readonly weaknessInner: unknown;
         readonly weaknessOuter: unknown;
+        readonly hasteInner: unknown;
+        readonly hasteOuter: unknown;
+        readonly doubleJumpInner: unknown;
+        readonly doubleJumpOuter: unknown;
+        readonly heatResistanceInner: unknown;
+        readonly heatResistanceOuter: unknown;
+        readonly thiefInner: unknown;
+        readonly thiefOuter: unknown;
+        readonly brainRotInner: unknown;
+        readonly brainRotOuter: unknown;
+        readonly blindnessInner: unknown;
+        readonly blindnessOuter: unknown;
+        readonly pickpocketerInner: unknown;
+        readonly pickpocketerOuter: unknown;
+        readonly lifestealInner: unknown;
+        readonly lifestealOuter: unknown;
+        readonly airWalkInner: unknown;
+        readonly airWalkOuter: unknown;
+        readonly wallClimbingInner: unknown;
+        readonly wallClimbingOuter: unknown;
+        readonly poopyInner: unknown;
+        readonly poopyOuter: unknown;
+        readonly knockbackInner: unknown;
+        readonly knockbackOuter: unknown;
         readonly cleansedInner: unknown;
         readonly cleansedOuter: unknown;
         readonly instantDamageInner: unknown;
@@ -3519,28 +3533,8 @@ interface _TypeOf {
         readonly instantHealthOuter: unknown;
         readonly shieldInner: unknown;
         readonly shieldOuter: unknown;
-        readonly doubleJumpInner: unknown;
-        readonly doubleJumpOuter: unknown;
-        readonly heatResistanceInner: unknown;
-        readonly heatResistanceOuter: unknown;
-        readonly thiefInner: unknown;
-        readonly thiefOuter: unknown;
-        readonly miningYieldInner: unknown;
-        readonly miningYieldOuter: unknown;
-        readonly brainRotInner: unknown;
-        readonly brainRotOuter: unknown;
-        readonly wallClimbingInner: unknown;
-        readonly wallClimbingOuter: unknown;
-        readonly airWalkInner: unknown;
-        readonly airWalkOuter: unknown;
-        readonly pickpocketerInner: unknown;
-        readonly pickpocketerOuter: unknown;
-        readonly lifestealInner: unknown;
-        readonly lifestealOuter: unknown;
-        readonly blindnessInner: unknown;
-        readonly blindnessOuter: unknown;
-        readonly poopyInner: unknown;
-        readonly poopyOuter: unknown;
+        readonly auraInner: unknown;
+        readonly auraOuter: unknown;
         readonly xRayVisionInner: unknown;
         readonly xRayVisionOuter: unknown;
         readonly defaultFirecrackerSmall: {
@@ -3578,8 +3572,6 @@ interface _TypeOf {
             readonly manualEmitCount: number;
         };
         readonly mango: unknown;
-        readonly whiteFirecrackerSmall: unknown;
-        readonly whiteFirecrackerLarge: unknown;
         readonly yellowFirecrackerSmall: unknown;
         readonly yellowFirecrackerLarge: unknown;
         readonly limeFirecrackerSmall: unknown;
@@ -3610,6 +3602,8 @@ interface _TypeOf {
         readonly lightGrayFirecrackerLarge: unknown;
         readonly magentaFirecrackerSmall: unknown;
         readonly magentaFirecrackerLarge: unknown;
+        readonly whiteFirecrackerSmall: unknown;
+        readonly whiteFirecrackerLarge: unknown;
         readonly brainRot: unknown;
         readonly stomp: unknown;
         readonly fertiliser: unknown;
