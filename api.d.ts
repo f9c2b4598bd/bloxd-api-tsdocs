@@ -1,5 +1,5 @@
 /**
- * @version 2026-08-05T15:22:39.000Z
+ * @version 2026-08-06T15:36:31.000Z
  */
 
 // #region Code API
@@ -4226,7 +4226,22 @@ interface _TypeOf {
         "Boat",
         "Obsidian Boat",
         "Hovercraft",
+        "Yellow Kart",
+        "White Kart",
         "Red Kart",
+        "Purple Kart",
+        "Pink Kart",
+        "Orange Kart",
+        "Magenta Kart",
+        "Lime Kart",
+        "Light Gray Kart",
+        "Light Blue Kart",
+        "Green Kart",
+        "Gray Kart",
+        "Cyan Kart",
+        "Brown Kart",
+        "Blue Kart",
+        "Black Kart",
         "Off Roader",
         "Light Blue Car",
         "Speedboat",
