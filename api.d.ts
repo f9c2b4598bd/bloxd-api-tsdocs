@@ -1,5 +1,5 @@
 /**
- * @version 2026-08-06T15:36:31.000Z
+ * @version 2026-08-07T14:37:13.000Z
  */
 
 // #region Code API
@@ -1827,6 +1827,13 @@ interface GameApi {
      */
     hasActiveQTE(playerId: PlayerId): boolean;
     /**
+     * Delete a request for a player.
+     *
+     * @param playerId
+     * @param id Returned from the addUiRequest call you want to cancel
+     */
+    deleteUiRequest(playerId: PlayerId, id: UiRequestId): void;
+    /**
      * Show a message over the shop in the same place that a shop item's onBoughtMessage is shown.
      * Displays for a couple seconds before disappearing
      * Use case is to show a dynamic message when player buys an item
@@ -2294,6 +2301,36 @@ interface GameApi {
      * @param id The ID of the queued command to remove.
      */
     removeFromQueue(id: QueuedCommandId): void;
+    /**
+     * Add a request for the player to answer in the top right corner. E.g. accepting or denying a tprequest.
+     *
+     * Use onUiRequestResponded to handle the response.
+     *
+     * Example Usage:
+     * ```js
+     * const uiRequestId = api.addUiRequest(playerId, {
+     *   type: "standard",
+     *   title: "Do you want to join the game?",
+     * }, 5000)
+     *
+     * onUiRequestResponded = (playerId, id, response) => {
+     *   if(id === uiRequestId) {
+     *     api.log(response)
+     *   }
+     * }
+     * ```
+     *
+     *
+     * @param playerId The ID of the player to add the request to.
+     * @param parameters The parameters of the request.
+     * @param timeoutAfterMs The timeout after which the request will be automatically deleted. A response will not be given and onUiRequestResponded will not be called.
+     * @returns The ID of the request. Pass into deleteUiRequest or cross-reference with onUiRequestResponded.
+     */
+    addUiRequest(
+        playerId: PlayerId,
+        parameters: UiRequestClientParameters,
+        timeoutAfterMs?: number,
+    ): number;
     /**
      * Log a message to chat.
      */
@@ -3254,6 +3291,7 @@ type RhythmClickQteState = {
     lastClickResult: boolean | null;
 };
 type QTERequestId = number;
+type UiRequestId = number;
 type IngameIconName = _TypeOf["ingameIconNames"][number];
 type InbuiltEffectInfo = { inbuiltLevel: number; initiatorId?: PlayerId };
 type PlayerPhysicsState<TPhysicsType extends PhysicsType> = Readonly<{
@@ -3359,11 +3397,22 @@ type UserCallbacks =
     | "onPlayerPlayedEmote"
     | "onPlayerEnteredVehicle"
     | "onPlayerExitedVehicle"
+    | "onUiRequestResponded"
     | "doPeriodicSave";
 type WorldGamemode = _TypeOf["worldGamemodes"][number];
 type QueuedCommandId = string;
 type QueuedStatusString =
     _TypeOf["QUEUED_COMMAND_STATUS_STRINGS"][keyof _TypeOf["QUEUED_COMMAND_STATUS_STRINGS"]];
+type UiRequestClientParameters = {
+    // eslint-disable-next-line prettier/prettier
+    type: "standard";
+    title: string | CustomTextStyling;
+    icons?: string[];
+    acceptText?: string | CustomTextStyling;
+    denyText?: string | CustomTextStyling;
+    successText?: string | CustomTextStyling;
+    autoDismissAfterMs?: number;
+};
 type MultiBlockInfo = {
     positions: { block: string; id: number; x: number; y: number; z: number }[];
 };
@@ -3533,6 +3582,10 @@ interface _TypeOf {
         readonly blindnessOuter: unknown;
         readonly poopyInner: unknown;
         readonly poopyOuter: unknown;
+        readonly glowingInner: unknown;
+        readonly glowingOuter: unknown;
+        readonly nightVisionInner: unknown;
+        readonly nightVisionOuter: unknown;
         readonly xRayVisionInner: unknown;
         readonly xRayVisionOuter: unknown;
         readonly defaultFirecrackerSmall: {
@@ -4081,6 +4134,8 @@ interface _TypeOf {
         "Bounciness",
         "Blindness",
         "Poopy",
+        "Glowing",
+        "Night Vision",
     ];
     MAX_MOB_FEED_LEVEL: 5;
     mobLevelUpBonuses: readonly [
@@ -4159,6 +4214,8 @@ interface _TypeOf {
         "Wall Climbing",
         "Thorns",
         "Poopy",
+        "Glowing",
+        "Night Vision",
         "Draugr Knight Head",
         "Draugr Warper Head",
         "Magma Golem Head",
@@ -4691,6 +4748,8 @@ type ClientOptions = {
     skyLightColourOverride: string;
     /** Ambient (absence of sky light) colour override - hex string e.g. #ffffff. */
     ambientLightColourOverride: string;
+    /** The dimmest light the player can see by - hex string e.g. #ffffff. Anywhere darker is lifted to it, e.g. caves and night. */
+    visionMinLightColour: string;
     /** Held item light colour override - hex colour string e.g. #ffffff. Applied regardless of any held item. */
     heldLightColourOverride: string;
     /** Held item light range override. Distance is measured in blocks. */
@@ -5395,7 +5454,9 @@ declare var onPlayerPotionEffect: (
         | "Lifesteal"
         | "Bounciness"
         | "Blindness"
-        | "Poopy",
+        | "Poopy"
+        | "Glowing"
+        | "Night Vision",
 ) => void | "preventEffect";
 
 /**
@@ -5567,6 +5628,15 @@ declare var onPlayerBoughtShopItem: (
     item: BoughtShopItem,
     userInput?: string,
 ) => void;
+
+/**
+ * Called when a player responds to a UI request.
+ *
+ * @param playerId - The id of the player responding to the UI request.
+ * @param id - The id of the UI request.
+ * @param response - The response to the UI request.
+ */
+declare var onUiRequestResponded: (playerId: PlayerId, id: UiRequestId, response: boolean) => void;
 
 /**
  * Called every so often.
