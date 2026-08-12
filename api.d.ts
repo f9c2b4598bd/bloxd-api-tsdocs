@@ -1,5 +1,5 @@
 /**
- * @version 2026-08-11T15:32:35.000Z
+ * @version 2026-08-12T14:58:17.000Z
  */
 
 // #region Code API
@@ -3402,6 +3402,7 @@ type UgcCurrencyInfo = {
     icon: string;
     iconColour?: string;
     persistent?: boolean;
+    hidden?: boolean;
     subtext?: string | CustomTextStyling;
 };
 type UserCallbacks =
