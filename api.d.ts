@@ -1,5 +1,5 @@
 /**
- * @version 2026-08-18T15:47:15.000Z
+ * @version 2026-08-19T15:15:20.000Z
  */
 
 // #region Code API
@@ -3250,7 +3250,8 @@ export interface GameApi {
      */
     getPlayerDbValue(playerId: PlayerId, key: string): PNull<string | number>;
     /**
-     * Sets a database value that is saved per player. This persists between sessions and between lobbies for custom games.
+     * Sets a database value that is saved per player. For custom games this persists between sessions and
+     * between lobbies, and is shared across all of the game's variations (e.g. a hub and its sub-modes).
      * @param playerId
      * @param key
      * @param value
